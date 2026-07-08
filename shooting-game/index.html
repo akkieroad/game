@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#0a0e27" />
+  <title>NEON DRIFT — ネオンドリフト</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ゲーム全体のコンテナ。Canvasを中央にスケール配置 -->
+  <div id="game-root">
+    <!-- 描画本体（論理解像度480x800 → CSSでスケール） -->
+    <canvas id="game-canvas"></canvas>
+
+    <!-- HUD：スコア・残機・ゲージ（DOMをCanvasに重ねる） -->
+    <div id="hud">
+      <div class="hud-top">
+        <div id="score">0000000</div>
+        <div id="chain"></div>
+        <button id="btn-pause" aria-label="ポーズ">II</button>
+      </div>
+      <div class="hud-bottom">
+        <div id="lives">♥♥♥</div>
+        <div id="bombs">◈◈</div>
+        <div id="boost-bar"><div id="boost-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- ステージ名 / ボス警告バナー -->
+    <div id="banner"></div>
+
+    <!-- モバイル用仮想ボタン（coarse pointerで表示） -->
+    <div id="touch-controls" hidden>
+      <button id="btn-bomb" aria-label="ボム">BOMB</button>
+      <button id="btn-boost" aria-label="ブースト">BOOST</button>
+    </div>
+
+    <!-- タイトル / ポーズ / リザルトなどのメニュー -->
+    <div id="overlay"></div>
+
+    <!-- デバッグHUD（?debug=1で表示） -->
+    <div id="debug-hud" hidden><span id="fps">FPS --</span></div>
+  </div>
+
+  <noscript>このゲームを遊ぶには JavaScript を有効にしてください。</noscript>
+
+  <!-- クラシックスクリプト構成：file:// でもCORS制限なく即起動。読込順が依存順 -->
+  <script src="js/config.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

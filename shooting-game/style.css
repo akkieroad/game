@@ -1,0 +1,245 @@
+/* =========================================================================
+ * style.css — レイアウト / HUD / メニュー / レスポンシブ / テーマ変数
+ * ゲーム内演出は Canvas 側。CSSはUIとレイアウトに専念。
+ * ========================================================================= */
+:root {
+  --accent: #00e5ff;
+  --accent-2: #ff4081;
+  --bg: #05060f;
+  --panel: rgba(10, 14, 39, 0.92);
+  --text: #e8f4ff;
+  --dim: #7a88a8;
+  --font: "Segoe UI", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- ルートコンテナ：画面いっぱい、Canvasを中央配置 ---- */
+#game-root {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 30%, #0d1330 0%, #05060f 70%);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+#game-canvas {
+  display: block;
+  touch-action: none;                 /* ドラッグでスクロールさせない */
+  box-shadow: 0 0 60px rgba(0, 229, 255, 0.15);
+  border-radius: 4px;
+  image-rendering: auto;
+}
+
+/* ---- HUD（Canvasに重ねる） ---- */
+#hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;               /* HUDは基本クリック透過 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(8px, 2.5vmin, 18px);
+  font-variant-numeric: tabular-nums;
+}
+.hud-top, .hud-bottom {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 2vmin, 14px);
+}
+.hud-top { justify-content: space-between; }
+#score {
+  font-size: clamp(18px, 4.5vmin, 30px);
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+}
+#chain {
+  font-size: clamp(16px, 4vmin, 26px);
+  font-weight: 800;
+  color: var(--accent-2);
+  text-shadow: 0 0 12px rgba(255, 64, 129, 0.7);
+  transition: opacity 0.2s;
+  opacity: 0;
+}
+#btn-pause {
+  pointer-events: auto;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  width: 40px; height: 34px;
+  font-weight: 700; letter-spacing: 2px;
+  cursor: pointer;
+}
+#lives { color: var(--accent-2); font-size: clamp(16px, 4vmin, 24px); text-shadow: 0 0 8px rgba(255,64,129,0.6); }
+#bombs { color: #ffd54f; font-size: clamp(14px, 3.5vmin, 22px); }
+#boost-bar {
+  flex: 1;
+  height: 10px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+#boost-fill {
+  height: 100%; width: 100%;
+  background: var(--accent);
+  transition: width 0.1s linear, background 0.2s;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* ---- バナー（ステージ名 / ボス警告） ---- */
+#banner {
+  position: absolute;
+  top: 40%;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: clamp(20px, 6vmin, 40px);
+  font-weight: 800;
+  letter-spacing: 3px;
+  white-space: pre-line;
+  color: #fff;
+  text-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent-2);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.4s, transform 0.4s;
+  pointer-events: none;
+}
+#banner.show { opacity: 1; transform: scale(1); }
+
+/* ---- タッチUI ---- */
+#touch-controls {
+  position: absolute;
+  bottom: clamp(16px, 6vmin, 40px);
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 6vmin, 48px);
+  pointer-events: none;
+}
+#touch-controls button {
+  pointer-events: auto;
+  width: clamp(64px, 18vmin, 96px);
+  height: clamp(64px, 18vmin, 96px);
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
+  background: rgba(0,229,255,0.12);
+  color: var(--text);
+  font-weight: 800;
+  font-size: clamp(10px, 3vmin, 14px);
+  backdrop-filter: blur(4px);
+}
+#btn-bomb { background: rgba(255,213,79,0.14); border-color: rgba(255,213,79,0.4); }
+#touch-controls button:active { transform: scale(0.92); }
+
+/* ---- オーバーレイ / メニュー ---- */
+#overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 5, 15, 0.72);
+  backdrop-filter: blur(6px);
+  padding: 16px;
+}
+#overlay.hidden { display: none; }
+
+.panel {
+  width: min(92vw, 440px);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 20px;
+  padding: clamp(20px, 5vmin, 36px);
+  text-align: center;
+  box-shadow: 0 0 50px rgba(0, 229, 255, 0.2);
+  animation: pop 0.35s cubic-bezier(0.2, 1, 0.3, 1);
+}
+@keyframes pop { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: none; } }
+
+.logo {
+  font-size: clamp(38px, 12vmin, 64px);
+  font-weight: 900;
+  letter-spacing: 4px;
+  line-height: 0.95;
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(0,229,255,0.7);
+}
+.logo span { display: block; color: var(--accent-2); text-shadow: 0 0 20px rgba(255,64,129,0.7); }
+.tagline { color: var(--dim); margin: 12px 0 22px; letter-spacing: 1px; }
+
+h2 { font-size: clamp(28px, 8vmin, 44px); letter-spacing: 3px; margin-bottom: 10px; }
+h2.win { color: var(--accent); text-shadow: 0 0 20px rgba(0,229,255,0.7); }
+h2.over { color: var(--accent-2); text-shadow: 0 0 20px rgba(255,64,129,0.7); }
+h3 { font-size: 14px; letter-spacing: 2px; color: var(--dim); margin: 18px 0 8px; }
+.score { font-size: clamp(20px, 5vmin, 30px); font-weight: 700; color: var(--accent); margin: 8px 0 18px; letter-spacing: 2px; }
+
+.btnrow { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 8px 0; }
+.btnrow.vert { flex-direction: column; }
+.btn {
+  padding: 12px 22px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  font-weight: 700;
+  font-size: clamp(14px, 3.5vmin, 17px);
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.12s, background 0.2s, box-shadow 0.2s;
+}
+.btn:hover { background: rgba(255,255,255,0.12); }
+.btn:active { transform: scale(0.95); }
+.btn.primary {
+  background: linear-gradient(135deg, var(--accent), #0091ea);
+  color: #001018;
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(0,229,255,0.5);
+}
+
+.howto { text-align: left; margin: 18px 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; }
+.howto summary { cursor: pointer; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+.howto ul { list-style: none; font-size: 13px; line-height: 1.9; color: #cdd8ef; }
+.howto b { color: var(--accent); }
+
+.hiscore { list-style: none; text-align: left; max-width: 260px; margin: 0 auto; }
+.hiscore li { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); font-variant-numeric: tabular-nums; }
+.dim { color: var(--dim); }
+
+.opts { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.opt { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--dim); font-size: 14px; }
+.opt input[type="range"] { flex: 1; max-width: 160px; }
+
+/* ---- デバッグHUD ---- */
+#debug-hud {
+  position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
+  font: 11px monospace; color: #0f0; pointer-events: none;
+}
+
+/* ---- 横持ち時の注意（縦持ち推奨） ---- */
+@media (orientation: landscape) and (max-height: 500px) {
+  #game-root::after {
+    content: "📱 縦持ちでのプレイを推奨します";
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(3,5,15,0.9); color: var(--accent);
+    font-size: 18px; letter-spacing: 1px; z-index: 50;
+  }
+}
