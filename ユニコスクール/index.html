@@ -325,9 +325,6 @@
   </div>
 
   <script>
-    // ▼ ここを LINE公式アカウントのURLに変更してください
-    const LINE_URL = "https://lin.ee/xxxx";
-
     const questions = [
       {
         title: "あなたのお仕事は「誰のための」ものですか？",
@@ -513,11 +510,6 @@
         '</div>' +
         '<div class="result-message">' +
           r.message.map(function (p) { return '<p>' + escapeHtml(p) + '</p>'; }).join('') +
-        '</div>' +
-        '<div class="cta">' +
-          '<p class="cta-lead">あなたの「あと1割」、一緒に言葉にしませんか？</p>' +
-          '<a class="btn-line" href="' + escapeHtml(LINE_URL) + '" target="_blank" rel="noopener noreferrer">専門家に相談してみる</a>' +
-          '<p class="cta-note">LINE友だち追加で、あなたのタイプに合わせたアドバイスをお届けします。</p>' +
         '</div>' +
         '<button class="btn-restart" id="restartBtn" type="button">もう一度診断する</button>';
 
