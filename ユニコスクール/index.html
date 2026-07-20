@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>コンセプト診断｜あなたの集客は、どこで止まっている？</title>
+  <style>
+    :root {
+      --bg-1: #fff7fb;
+      --bg-2: #fff1f6;
+      --bg-3: #effcf8;
+      --text-main: #4d4347;
+      --text-sub: #6f6169;
+      --rose-300: #efabc8;
+      --pink-300: #eea9d0;
+      --emerald-100: #d8f3ea;
+      --emerald-200: #b7ead9;
+      --emerald-400: #54c7a5;
+      --emerald-500: #2eaa89;
+      --shadow-soft: 0 18px 50px rgba(128, 191, 179, 0.16);
+      --shadow-card: 0 12px 32px rgba(128, 191, 179, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+      color: var(--text-main);
+      background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 48%, var(--bg-3) 100%);
+      min-height: 100vh;
+      line-height: 1.85;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: min(100%, 640px);
+      margin: 0 auto;
+      padding: 24px 18px 56px;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .brand-label {
+      margin: 0;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: var(--emerald-500);
+    }
+
+    /* progress */
+    .progress {
+      margin: 6px 0 20px;
+    }
+
+    .progress-text {
+      margin: 0 0 8px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-sub);
+    }
+
+    .progress-track {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(128, 191, 179, 0.15);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--rose-300), var(--pink-300), var(--emerald-400));
+      transition: width 0.35s ease;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 28px;
+      box-shadow: var(--shadow-soft);
+      padding: 30px 24px;
+    }
+
+    /* intro */
+    .intro h1 {
+      margin: 0 0 18px;
+      font-size: 28px;
+      line-height: 1.4;
+      color: var(--text-main);
+    }
+
+    .intro p {
+      margin: 0 0 16px;
+      font-size: 19px;
+      color: var(--text-sub);
+    }
+
+    .intro p:last-of-type { margin-bottom: 26px; }
+
+    /* question */
+    .q-number {
+      margin: 0 0 12px;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--emerald-500);
+    }
+
+    .q-title {
+      margin: 0 0 24px;
+      font-size: 24px;
+      line-height: 1.55;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .choices {
+      display: grid;
+      gap: 16px;
+    }
+
+    .choice {
+      width: 100%;
+      text-align: left;
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid var(--emerald-100);
+      background: #ffffff;
+      color: var(--text-main);
+      border-radius: 22px;
+      padding: 20px 22px;
+      box-shadow: var(--shadow-card);
+      font-size: 20px;
+      line-height: 1.6;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .choice:active {
+      transform: scale(0.99);
+    }
+
+    .choice:hover {
+      border-color: var(--emerald-200);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 38px rgba(128, 191, 179, 0.18);
+    }
+
+    /* big primary button */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+      border-radius: 999px;
+      padding: 18px 24px;
+      background: linear-gradient(90deg, var(--rose-300), var(--pink-300), var(--emerald-400));
+      box-shadow: 0 12px 28px rgba(128, 191, 179, 0.3);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.97; }
+    .btn-primary:active { transform: scale(0.99); }
+
+    .btn-back {
+      display: block;
+      margin: 18px auto 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      font-size: 16px;
+      color: var(--text-sub);
+      text-decoration: underline;
+      padding: 8px;
+    }
+
+    /* result */
+    .result-head {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .result-eyebrow {
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--emerald-500);
+    }
+
+    .result-score {
+      margin: 0 0 14px;
+      font-size: 17px;
+      color: var(--text-sub);
+    }
+
+    .result-score strong {
+      font-size: 22px;
+      color: var(--text-main);
+    }
+
+    .result-type {
+      margin: 0 0 22px;
+      font-size: 27px;
+      line-height: 1.4;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .result-message p {
+      margin: 0 0 18px;
+      font-size: 19px;
+      line-height: 1.95;
+      color: var(--text-sub);
+    }
+
+    .result-message p:last-child { margin-bottom: 0; }
+
+    .cta {
+      margin-top: 28px;
+      padding: 24px 20px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #fff6fa, #effcf8);
+      border: 1px solid var(--emerald-100);
+      text-align: center;
+    }
+
+    .cta-lead {
+      margin: 0 0 18px;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .btn-line {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 20px 24px;
+      background: linear-gradient(90deg, #4ac59f, #2eaa89);
+      box-shadow: 0 14px 30px rgba(52, 181, 150, 0.35);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn-line:hover { transform: translateY(-2px); opacity: 0.97; }
+    .btn-line:active { transform: scale(0.99); }
+
+    .cta-note {
+      margin: 16px 0 0;
+      font-size: 15px;
+      color: #8b7d83;
+      line-height: 1.7;
+    }
+
+    .btn-restart {
+      display: block;
+      margin: 22px auto 0;
+      background: #fff;
+      border: 1px solid var(--emerald-100);
+      cursor: pointer;
+      font: inherit;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-sub);
+      border-radius: 999px;
+      padding: 14px 28px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 13px;
+      color: #9c8f95;
+    }
+
+    @media (max-width: 400px) {
+      .page { padding: 20px 14px 44px; }
+      .card { padding: 26px 18px; }
+      .intro h1 { font-size: 25px; }
+      .q-title { font-size: 22px; }
+      .choice { font-size: 18px; padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="brand">
+      <p class="brand-label">コンセプト診断</p>
+    </div>
+
+    <div id="progress" class="progress" hidden>
+      <p id="progressText" class="progress-text"></p>
+      <div class="progress-track">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+    </div>
+
+    <main id="app" class="card"></main>
+
+    <p class="footer-note">※ この診断は1ファイルのHTMLで動作します。</p>
+  </div>
+
+  <script>
+    // ▼ ここを LINE公式アカウントのURLに変更してください
+    const LINE_URL = "https://lin.ee/xxxx";
+
+    const questions = [
+      {
+        title: "あなたのお仕事は「誰のための」ものですか？",
+        choices: [
+          "具体的な一人の人物像がすぐ浮かぶ（年齢・状況・悩みまで）",
+          "「40代女性」くらいのざっくりした層なら言える",
+          "「必要としてくれる人みんな」に届けたい"
+        ]
+      },
+      {
+        title: "そのお客様の悩みを、お客様自身が使う言葉で言えますか？",
+        choices: [
+          "言える。実際にお客様から聞いた言葉がある",
+          "たぶんこうだろう、という想像なら言える",
+          "考えたことがなかった"
+        ]
+      },
+      {
+        title: "「何をしている人ですか？」と聞かれたら、一言で答えられますか？",
+        choices: [
+          "いつも同じ一言で答えられる",
+          "毎回説明が長くなる／相手によって言うことが変わる",
+          "聞かれるたびに言葉に詰まる"
+        ]
+      },
+      {
+        title: "同じお仕事をしている人と、あなたの違いは何ですか？",
+        choices: [
+          "明確に言える。選ばれている理由も分かっている",
+          "違いはあると思うが、言葉にできない",
+          "正直、違いが分からない／考えると不安になる"
+        ]
+      },
+      {
+        title: "SNSやブログの投稿を書くとき、迷わず書けていますか？",
+        choices: [
+          "書くことの軸が決まっているので迷わない",
+          "毎回「何を書こう」から始まり、時間がかかる",
+          "何を書けばいいか分からず、手が止まる・続かない"
+        ]
+      },
+      {
+        title: "あなたの発信に「私のことだ」という反応（共感コメント・DM・申込）は来ていますか？",
+        choices: [
+          "狙った相手から反応が来ている",
+          "いいねは付くが、申込にはつながらない",
+          "反応がほとんどない"
+        ]
+      },
+      {
+        title: "今の価格に、自信を持っていますか？",
+        choices: [
+          "価値に見合った価格で、堂々と提示できている",
+          "本当はもっと上げたいが、上げると売れない気がする",
+          "安くしないと売れない／価格を言うのが怖い"
+        ]
+      }
+    ];
+
+    // A=2点, B=1点, C=0点
+    const SCORE_BY_CHOICE = [2, 1, 0];
+
+    const results = {
+      type1: {
+        eyebrow: "診断結果",
+        type: "タイプ①「あと一歩」型",
+        message: [
+          "素晴らしいです。コンセプトの土台はかなりできています。",
+          "ただ、1つでもBやCが付いた項目、ありませんでしたか？",
+          "実は、その「1箇所の曖昧さ」が集客の穴になります。コンセプトは7項目がすべてつながって初めて機能するので、9割できている人ほど、残り1割が原因で「頑張っているのに、あと少し届かない」状態が続きます。",
+          "もったいないのは、ここまでできている方が独学で足踏みすることです。仕上げの1割こそ、自分では見えない部分。一度、専門家の目で客観的にチェックしてもらうことをおすすめします。"
+        ]
+      },
+      type2: {
+        eyebrow: "診断結果",
+        type: "タイプ②「なんとなく」型",
+        message: [
+          "危険信号です。実は、このタイプが一番多く、そして一番長く足踏みします。",
+          "「なんとなく決まっている気がする」状態は、決まっていないのと同じです。なんとなくの発信は、なんとなくしか届きません。頑張って投稿しても反応が薄い、学んだノウハウが成果につながらない——その原因は、努力不足でもノウハウ不足でもなく、コンセプトの言語化不足です。",
+          "そしてここが重要なのですが、この「なんとなく」は独学では言語化できません。自分の強みは自分にとって当たり前すぎて、自分では見えないからです。何ヶ月も一人で考え続ける前に、今すぐ専門家に壁打ち相手になってもらいましょう。それが一番の近道です。"
+        ]
+      },
+      type3: {
+        eyebrow: "診断結果",
+        type: "タイプ③「土台から」型",
+        message: [
+          "正直にお伝えします。今のまま発信やノウハウ収集を続けても、成果にはつながりません。",
+          "でも、安心してください。あなたに足りないのは才能でも努力でもなく、「コンセプト」という土台だけです。土台のない家にどれだけ立派な柱を立てても崩れるように、コンセプトのないままSNSを頑張っても積み上がりません。逆に言えば、土台さえ作れば、同じ努力量で結果は変わります。",
+          "ただし、コンセプトの言語化を独学でやろうとしないでください。テンプレートに当てはめても「しっくりこない」まま終わり、時間だけが過ぎます。まずは一度、専門家に相談するところから始めましょう。ゼロからで大丈夫です。"
+        ]
+      }
+    };
+
+    const app = document.getElementById("app");
+    const progress = document.getElementById("progress");
+    const progressText = document.getElementById("progressText");
+    const progressBar = document.getElementById("progressBar");
+
+    let step = -1; // -1: intro, 0..6: questions, 7: result
+    const answers = new Array(questions.length).fill(null);
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function updateProgress() {
+      if (step < 0 || step >= questions.length) {
+        progress.hidden = true;
+        return;
+      }
+      progress.hidden = false;
+      progressText.textContent = "Q" + (step + 1) + " / " + questions.length;
+      progressBar.style.width = ((step) / questions.length * 100) + "%";
+    }
+
+    function renderIntro() {
+      app.innerHTML =
+        '<div class="intro">' +
+          '<h1>あなたの集客は、<br>どこで止まっている？</h1>' +
+          '<p>うまくいかない原因は、努力不足ではなく「コンセプト」かもしれません。</p>' +
+          '<p>7つの質問に答えるだけ。あなたの今の状態が分かります。</p>' +
+          '<button class="btn-primary" id="startBtn" type="button">診断をはじめる</button>' +
+        '</div>';
+      document.getElementById("startBtn").addEventListener("click", function () {
+        step = 0;
+        render();
+      });
+    }
+
+    function renderQuestion() {
+      const q = questions[step];
+      let html =
+        '<p class="q-number">Q' + (step + 1) + '</p>' +
+        '<h2 class="q-title">' + escapeHtml(q.title) + '</h2>' +
+        '<div class="choices">';
+      q.choices.forEach(function (choice, i) {
+        html += '<button class="choice" type="button" data-index="' + i + '">' +
+          escapeHtml(choice) + '</button>';
+      });
+      html += '</div>';
+      if (step > 0) {
+        html += '<button class="btn-back" id="backBtn" type="button">← 前の質問にもどる</button>';
+      }
+      app.innerHTML = html;
+
+      app.querySelectorAll(".choice").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          answers[step] = SCORE_BY_CHOICE[parseInt(btn.getAttribute("data-index"), 10)];
+          step += 1;
+          render();
+        });
+      });
+
+      const backBtn = document.getElementById("backBtn");
+      if (backBtn) {
+        backBtn.addEventListener("click", function () {
+          step -= 1;
+          render();
+        });
+      }
+    }
+
+    function getResult(total) {
+      if (total >= 11) return results.type1; // 11〜14
+      if (total >= 6) return results.type2;  // 6〜10
+      return results.type3;                  // 0〜5
+    }
+
+    function renderResult() {
+      const total = answers.reduce(function (sum, v) { return sum + (v || 0); }, 0);
+      const r = getResult(total);
+
+      let html =
+        '<div class="result-head">' +
+          '<p class="result-eyebrow">' + escapeHtml(r.eyebrow) + '</p>' +
+          '<p class="result-score">あなたのスコア：<strong>' + total + '</strong> / 14点</p>' +
+          '<h1 class="result-type">' + escapeHtml(r.type) + '</h1>' +
+        '</div>' +
+        '<div class="result-message">' +
+          r.message.map(function (p) { return '<p>' + escapeHtml(p) + '</p>'; }).join('') +
+        '</div>' +
+        '<div class="cta">' +
+          '<p class="cta-lead">あなたの「あと1割」、一緒に言葉にしませんか？</p>' +
+          '<a class="btn-line" href="' + escapeHtml(LINE_URL) + '" target="_blank" rel="noopener noreferrer">専門家に相談してみる</a>' +
+          '<p class="cta-note">LINE友だち追加で、あなたのタイプに合わせたアドバイスをお届けします。</p>' +
+        '</div>' +
+        '<button class="btn-restart" id="restartBtn" type="button">もう一度診断する</button>';
+
+      app.innerHTML = html;
+      document.getElementById("restartBtn").addEventListener("click", function () {
+        step = -1;
+        answers.fill(null);
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
+    function render() {
+      updateProgress();
+      if (step < 0) {
+        renderIntro();
+      } else if (step < questions.length) {
+        renderQuestion();
+      } else {
+        renderResult();
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    render();
+  </script>
+</body>
+</html>
