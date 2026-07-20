@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ぷよぷよ風パズルゲーム</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <h1>ぷよぷよ<span>風</span></h1>
+
+    <div class="game-area">
+      <div class="board-wrap">
+        <canvas id="board" width="240" height="480"></canvas>
+        <div id="overlay" class="overlay hidden">
+          <div class="overlay-inner">
+            <p id="overlay-title">GAME OVER</p>
+            <button id="restart-btn">もう一度あそぶ</button>
+          </div>
+        </div>
+        <div id="chain-popup" class="chain-popup hidden"></div>
+      </div>
+
+      <div class="side-panel">
+        <div class="panel-box">
+          <h2>NEXT</h2>
+          <canvas id="next" width="80" height="160"></canvas>
+        </div>
+        <div class="panel-box">
+          <h2>SCORE</h2>
+          <p id="score">0</p>
+        </div>
+        <div class="panel-box controls-box">
+          <h2>操作方法</h2>
+          <ul class="controls">
+            <li>← → : 移動</li>
+            <li>↓ : ソフトドロップ</li>
+            <li>↑ / X : 右回転</li>
+            <li>Z : 左回転</li>
+            <li>Space : ハードドロップ</li>
+          </ul>
+        </div>
+        <button id="pause-btn" class="pause-btn">一時停止</button>
+      </div>
+    </div>
+
+    <div class="touch-controls">
+      <div class="touch-row">
+        <button class="touch-btn" id="btn-rotate-left" aria-label="左回転">↺</button>
+        <button class="touch-btn" id="btn-left" aria-label="左に移動">←</button>
+        <button class="touch-btn" id="btn-down" aria-label="ソフトドロップ">↓</button>
+        <button class="touch-btn" id="btn-right" aria-label="右に移動">→</button>
+        <button class="touch-btn" id="btn-rotate-right" aria-label="右回転">↻</button>
+      </div>
+      <div class="touch-row">
+        <button class="touch-btn wide" id="btn-drop">ハードドロップ</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
