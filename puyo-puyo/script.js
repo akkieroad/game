@@ -486,6 +486,55 @@
   pauseBtn.addEventListener("click", togglePause);
   restartBtn.addEventListener("click", resetGame);
 
+  // ---------- Touch controls ----------
+
+  function bindHoldButton(id, onFire, { repeat = true, initialDelay = 220, repeatDelay = 90 } = {}) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let holdTimer = null;
+    let repeatTimer = null;
+
+    function stop() {
+      clearTimeout(holdTimer);
+      clearInterval(repeatTimer);
+      holdTimer = null;
+      repeatTimer = null;
+    }
+
+    el.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      onFire();
+      if (repeat) {
+        holdTimer = setTimeout(() => {
+          repeatTimer = setInterval(onFire, repeatDelay);
+        }, initialDelay);
+      }
+    });
+
+    ["pointerup", "pointerleave", "pointercancel"].forEach((evt) =>
+      el.addEventListener(evt, stop)
+    );
+  }
+
+  bindHoldButton("btn-left", () => tryMove(-1));
+  bindHoldButton("btn-right", () => tryMove(1));
+  bindHoldButton("btn-rotate-left", () => tryRotate(-1), { repeat: false });
+  bindHoldButton("btn-rotate-right", () => tryRotate(1), { repeat: false });
+  bindHoldButton("btn-drop", () => tryDrop(true), { repeat: false });
+
+  const btnDown = document.getElementById("btn-down");
+  if (btnDown) {
+    btnDown.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      softDrop = true;
+    });
+    ["pointerup", "pointerleave", "pointercancel"].forEach((evt) =>
+      btnDown.addEventListener(evt, () => {
+        softDrop = false;
+      })
+    );
+  }
+
   // speed up over time
   setInterval(() => {
     if (!gameOver && dropInterval > 200) {
@@ -493,6 +542,34 @@
     }
   }, 10000);
 
+  // ---------- Responsive board sizing ----------
+  // On narrow/touch screens the touch pad is pinned to the bottom of the
+  // viewport; size the board to fill whatever vertical space is left above
+  // it so nothing ever overlaps, on any screen height.
+  const boardWrapEl = document.querySelector(".board-wrap");
+  const touchControlsEl = document.querySelector(".touch-controls");
+  const mobileQuery = window.matchMedia(
+    "(max-width: 640px), (hover: none) and (pointer: coarse)"
+  );
+
+  function fitBoardToScreen() {
+    if (!mobileQuery.matches) {
+      boardWrapEl.style.width = "";
+      return;
+    }
+    const top = boardWrapEl.getBoundingClientRect().top;
+    const controlsTop = touchControlsEl.getBoundingClientRect().top;
+    const available = controlsTop - top - 10;
+    const byHeight = available / 2;
+    const byWidth = window.innerWidth * 0.85;
+    const width = Math.max(120, Math.min(byHeight, byWidth, 260));
+    boardWrapEl.style.width = `${width}px`;
+  }
+
+  window.addEventListener("resize", fitBoardToScreen);
+  window.addEventListener("orientationchange", fitBoardToScreen);
+
   resetGame();
+  fitBoardToScreen();
   requestAnimationFrame(loop);
 })();
